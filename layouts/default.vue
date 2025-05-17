@@ -1,5 +1,6 @@
 <template>
   <div>
+    <LangSwitcher />
     <Navbar />
     <main class="p-4">
       <slot />

@@ -1,15 +1,28 @@
 <template>
   <UApp>
+    <Loading />
     <NuxtLayout>
           <NuxtPage :transition="pageTransition" />
     </NuxtLayout>
   </UApp>
 </template>
 <script setup>
-const pageTransition = {
-  name: 'slide',
-  mode: 'out-in',
-}
+  const pageTransition = {
+    name: 'slide',
+    mode: 'out-in',
+  }
+
+  // ✅ Watch locale to set text direction
+  const { locale } = useI18n();
+
+  watch(locale, (val) => {
+    document.dir = val === 'ar' ? 'rtl' : 'ltr'
+  });
+
+  onMounted(() => {
+    document.dir = locale.value === 'ar' ? 'rtl' : 'ltr'
+  });
+
 </script>
 <style>
 .slide-enter-active,

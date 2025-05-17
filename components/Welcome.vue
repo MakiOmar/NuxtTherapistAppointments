@@ -1,27 +1,29 @@
 <template>
   <div class="min-h-screen bg-white p-6">
     <UCard class="max-w-xl mx-auto space-y-4">
-      <h2 class="text-2xl font-bold">👋 Welcome to the Dashboard</h2>
-        <div v-if="loading">
-            <p class="text-gray-500">Loading...</p>
-        </div>
+      <h2 class="text-2xl font-bold">{{ $t('welcome') }}</h2>
 
-        <div v-else-if="user">
-        <p><strong>Name:</strong> {{ user.name }}</p>
-        <p><strong>Email:</strong> {{ user.email }}</p>
-        <p><strong>Role(s):</strong> {{ user.roles.join(', ') }}</p>
-        </div>
+      <div v-if="loading">
+        <p class="text-gray-500">{{ $t('loading') }}</p>
+      </div>
 
-        <div v-else>
-        <p class="text-red-600">You are not logged in.</p>
-        </div>
+      <div v-else-if="user">
+        <p><strong>{{ $t('name') }}:</strong> {{ user.name }}</p>
+        <p><strong>{{ $t('email') }}:</strong> {{ user.email }}</p>
+        <p><strong>{{ $t('roles') }}:</strong> {{ user.roles.join(', ') }}</p>
+      </div>
+
+      <div v-else>
+        <p class="text-red-600">{{ $t('not_logged_in') }}</p>
+      </div>
 
       <div class="pt-4">
-        <UButton color="red" @click="logout">Logout</UButton>
+        <UButton color="red" @click="logout">{{ $t('logout') }}</UButton>
       </div>
     </UCard>
   </div>
 </template>
+
 
 <script setup lang="ts">
     const user = ref(null)

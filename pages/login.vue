@@ -1,12 +1,12 @@
 <template>
   <div class="min-h-screen flex items-center justify-center bg-gray-100">
     <UCard class="w-full max-w-md space-y-6 p-6">
-      <h2 class="text-2xl font-bold text-center">Login</h2>
+      <h2 class="text-2xl font-bold text-center">{{ $t('login_title') }}</h2>
 
       <USelect
         v-model="selectedRole"
-        :items="roleOptions"
-        placeholder="Select your role"
+        :items="translatedRoles"
+        :placeholder="$t('select_role')"
         class="w-full"
         @update:model-value="handleRoleChange"
       />
@@ -14,7 +14,7 @@
       <UInput
         v-model="form.email"
         type="email"
-        placeholder="Email"
+        :placeholder="$t('email')"
         icon="i-heroicons-envelope"
         :disabled="!!selectedRole"
       />
@@ -22,7 +22,7 @@
       <UInput
         v-model="form.password"
         type="password"
-        placeholder="Password"
+        :placeholder="$t('password')"
         icon="i-heroicons-lock-closed"
       />
 
@@ -33,7 +33,7 @@
         :disabled="!form.email || !form.password"
         class="mt-4"
       >
-        Sign In
+        {{ $t('sign_in') }}
       </UButton>
 
       <div v-if="error" class="text-red-600 text-sm text-center mt-2">
@@ -44,29 +44,31 @@
 </template>
 
 <script setup lang="ts">
+import { useI18n } from '#imports'
+
 interface LoginForm {
   email: string
   password: string
 }
+
+const { t } = useI18n()
+const router = useRouter()
+const apiBase = useRuntimeConfig().public.apiBase
 
 const form = reactive<LoginForm>({
   email: '',
   password: ''
 })
 
-const roleOptions = [
-  { label: 'Administrator', value: 'admin' },
-  { label: 'Medical Doctor', value: 'doctor' },
-  { label: 'Patient', value: 'patient' }
-]
-
 const selectedRole = ref<string | null>(null)
 const loading = ref(false)
 const error = ref('')
 
-const apiBase = useRuntimeConfig().public.apiBase
-
-const router = useRouter()
+const translatedRoles = computed(() => [
+  { label: t('admin'), value: 'admin' },
+  { label: t('doctor'), value: 'doctor' },
+  { label: t('patient'), value: 'patient' }
+])
 
 function handleRoleChange(role: string | null) {
   if (role) {
@@ -75,7 +77,7 @@ function handleRoleChange(role: string | null) {
       doctor: { email: 'doctor@test.com', password: 'password' },
       patient: { email: 'patient@test.com', password: 'password' }
     }
-    
+
     const credentials = roleCredentials[role as keyof typeof roleCredentials]
     form.email = credentials.email
     form.password = credentials.password
@@ -87,7 +89,7 @@ function handleRoleChange(role: string | null) {
 
 async function handleLogin() {
   if (!form.email || !form.password) {
-    error.value = 'Please fill in all fields'
+    error.value = t('login_error_required')
     return
   }
 
@@ -105,17 +107,16 @@ async function handleLogin() {
 
     localStorage.setItem('auth_token', response.token)
 
-
-    // Redirect based on role
-    const redirectPath = selectedRole.value === 'admin' 
-      ? '/admin/dashboard' 
-      : selectedRole.value === 'doctor' 
-        ? '/doctor/dashboard' 
-        : '/patient/dashboard'
+    const redirectPath =
+      selectedRole.value === 'admin'
+        ? '/admin/dashboard'
+        : selectedRole.value === 'doctor'
+          ? '/doctor/dashboard'
+          : '/patient/dashboard'
 
     await router.push(redirectPath)
   } catch (err: any) {
-    error.value = err.data?.message || 'Login failed. Please try again.'
+    error.value = err.data?.message || t('login_error_failed')
     console.error('Login error:', err)
   } finally {
     loading.value = false
@@ -124,5 +125,5 @@ async function handleLogin() {
 </script>
 
 <style scoped>
-/* Add any custom styles here */
+/* Custom styles (optional) */
 </style>
