@@ -14,7 +14,7 @@
 
   // ✅ Watch locale to set text direction
   const { locale } = useI18n();
-
+  const localePath = useLocalePath()
   watch(locale, (val) => {
     document.dir = val === 'ar' ? 'rtl' : 'ltr'
   });
