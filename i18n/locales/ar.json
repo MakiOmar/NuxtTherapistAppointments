@@ -24,8 +24,24 @@
   "admin": "مسؤول",
   "doctor": "طبيب",
   "patient": "مريض",
+  "home": "الرئيسية",
   
   "name": "الاسم",
   "email": "البريد الإلكتروني",
-  "password": "كلمة المرور"
+  "password": "كلمة المرور",
+  "doctor_settings_title": "إعدادات الطبيب",
+  "availability_mode": "وضع التوفر",
+  "online_only": "عبر الإنترنت فقط",
+  "offline_only": "حضوري فقط",
+  "both": "كلا النوعين",
+  "clinics": "العيادات",
+  "clinic_name": "اسم العيادة",
+  "clinic_address": "عنوان العيادة",
+  "price_30": "سعر 30 دقيقة",
+  "price_45": "سعر 45 دقيقة",
+  "price_60": "سعر 60 دقيقة",
+  "disable_booking": "تعطيل الحجز لهذه العيادة",
+  "add_clinic": "إضافة عيادة",
+  "enable_new_patient_pricing": "تفعيل تسعيرة خاصة للمرضى الجدد",
+  "publish_sessions": "نشر الجلسات"
 }
