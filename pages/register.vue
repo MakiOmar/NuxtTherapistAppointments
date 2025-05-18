@@ -44,6 +44,10 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+  middleware: ['redirect-if-auth']
+})
+
 const router = useRouter()
 const { t } = useI18n()
 

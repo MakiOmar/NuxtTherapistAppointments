@@ -44,6 +44,10 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+  middleware: ['redirect-if-auth']
+})
+
 import { useI18n } from '#imports'
 
 interface LoginForm {
@@ -53,6 +57,8 @@ interface LoginForm {
 
 const { t } = useI18n()
 const router = useRouter()
+const { localePath } = useLocalePath();
+
 const apiBase = useRuntimeConfig().public.apiBase
 
 const form = reactive<LoginForm>({

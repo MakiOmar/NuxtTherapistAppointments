@@ -4,10 +4,10 @@
     <p class="text-gray-600">{{ $t('home_subtitle') }}</p>
 
     <div class="flex space-x-4">
-      <NuxtLink to="/login">
+      <NuxtLink :to="$localePath('/login')">
         <UButton color="blue">{{ $t('login') }}</UButton>
       </NuxtLink>
-      <NuxtLink to="/register">
+      <NuxtLink :to="$localePath('/register')">
         <UButton color="gray">{{ $t('register') }}</UButton>
       </NuxtLink>
     </div>
