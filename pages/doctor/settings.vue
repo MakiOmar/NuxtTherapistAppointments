@@ -1,110 +1,106 @@
 <template>
   <div class="max-w-4xl mx-auto p-6 rtl text-right">
-    <h2 class="text-2xl font-bold mb-8 text-gray-800">إعدادات نظام الحجوزات</h2>
+    <h2 class="text-2xl font-bold mb-8 text-gray-800">{{ $t('settings.bookingSystemSettings') }}</h2>
     
-    <!-- Booking Type Selection -->
     <div class="bg-gray-50 p-6 rounded-lg shadow-sm mb-6">
-      <h3 class="text-lg font-semibold mb-4 text-gray-700">نوع الحجوزات المراد إدارتها</h3>
+      <h3 class="text-lg font-semibold mb-4 text-gray-700">{{ $t('settings.bookingTypeManagement') }}</h3>
       <div class="flex flex-col space-y-3">
         <label class="inline-flex items-center">
           <input type="radio" v-model="bookingType" value="online_only" class="form-radio h-5 w-5 text-blue-600">
-          <span class="mr-2 text-gray-700">أونلاين فقط</span>
+          <span class="mr-2 text-gray-700">{{ $t('settings.onlineOnly') }}</span>
         </label>
         <label class="inline-flex items-center">
           <input type="radio" v-model="bookingType" value="clinic_only" class="form-radio h-5 w-5 text-blue-600">
-          <span class="mr-2 text-gray-700">في العيادة فقط</span>
+          <span class="mr-2 text-gray-700">{{ $t('settings.clinicOnly') }}</span>
         </label>
         <label class="inline-flex items-center">
           <input type="radio" v-model="bookingType" value="both" class="form-radio h-5 w-5 text-blue-600">
-          <span class="mr-2 text-gray-700">أونلاين وفي العيادة</span>
+          <span class="mr-2 text-gray-700">{{ $t('settings.onlineAndClinic') }}</span>
         </label>
       </div>
     </div>
 
-    <!-- Online Clinic Information -->
-    <div class="bg-gray-50 p-6 rounded-lg shadow-sm mb-6" v-if="showOnlineSettings">
+    <div class="bg-gray-50 p-6 rounded-lg shadow-sm mb-6" v-if="showOfflineSettings">
       <div class="flex justify-between items-center mb-4">
-        <h3 class="text-lg font-semibold text-gray-700">بيانات العيادة الأونلاين</h3>
+        <h3 class="text-lg font-semibold text-gray-700">{{ $t('settings.onlineClinicData') }}</h3>
         <button @click="addNewClinic" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md flex items-center">
-          <span>+ إضافة مكان</span>
+          <span>+ {{ $t('settings.addPlace') }}</span>
         </button>
       </div>
       
       <div v-for="(clinic, index) in onlineClinics" :key="index" class="bg-white p-5 rounded-lg shadow-sm mb-4 border border-gray-200">
         <div class="flex items-center justify-between mb-4">
-          <h4 class="font-medium text-gray-800">العيادة {{ index + 1 }}</h4>
+          <h4 class="font-medium text-gray-800">{{ $t('settings.clinic') }} {{ index + 1 }}</h4>
           <div class="flex items-center">
             <label class="switch">
               <input type="checkbox" v-model="clinic.active" class="hidden">
               <span class="slider round bg-gray-300"></span>
             </label>
-            <span class="mr-2 text-sm text-gray-600">تفعيل العيادة</span>
+            <span class="mr-2 text-sm text-gray-600">{{ $t('settings.activateClinic') }}</span>
           </div>
         </div>
-        
+       
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700 mb-1">اسم المكان *</label>
+            <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('settings.placeName') }} *</label>
             <input type="text" v-model="clinic.name" required 
                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
           </div>
-          
+         
           <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700 mb-1">رقم الهاتف</label>
+            <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('settings.phoneNumber') }}</label>
             <input type="tel" v-model="clinic.phone"
                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
           </div>
-          
+         
           <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700 mb-1">العنوان</label>
+            <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('settings.address') }}</label>
             <input type="text" v-model="clinic.address"
                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
           </div>
-          
+         
           <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700 mb-1">رابط خرائط جوجل</label>
+            <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('settings.googleMapsLink') }}</label>
             <input type="url" v-model="clinic.mapLink"
                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
           </div>
         </div>
-        
+       
         <div class="flex items-center mt-4">
           <input type="checkbox" v-model="clinic.bookingDisabled" id="disableBooking" 
                  class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
-          <label for="disableBooking" class="mr-2 block text-sm text-gray-700">تعطيل الحجوزات لهذه العيادة</label>
+          <label for="disableBooking" class="mr-2 block text-sm text-gray-700">{{ $t('settings.disableBookingForClinic') }}</label>
         </div>
       </div>
     </div>
 
-    <!-- Session Durations and Pricing -->
     <div class="bg-gray-50 p-6 rounded-lg shadow-sm mb-6">
-      <h3 class="text-lg font-semibold mb-4 text-gray-700">مدد الجلسات المتاحة للحجز</h3>
+      <h3 class="text-lg font-semibold mb-4 text-gray-700">{{ $t('settings.availableSessionDurations') }}</h3>
       <div class="space-y-4">
         <div v-for="duration in availableDurations" :key="duration.minutes" 
              class="bg-white p-4 rounded-lg shadow-sm border border-gray-200 flex items-center justify-between">
           <div class="flex items-center">
             <input type="checkbox" v-model="duration.enabled" 
-                   @change="duration.enabled && duration.basePrice === 0 ? duration.basePrice = 100 : null"
+                   @change="duration.enabled ? openPricingModal(duration) : null"
                    class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
-            <span class="mr-2 text-gray-700">{{ duration.minutes }} دقيقة</span>
+            <span class="mr-2 text-gray-700">{{ duration.minutes }} {{ $t('settings.minutes') }}</span>
           </div>
           <button @click="openPricingModal(duration)" 
                   class="text-blue-600 hover:text-blue-800 px-3 py-1 border border-blue-200 rounded-md flex items-center">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
               <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
             </svg>
-            تعديل الأسعار
+            {{ $t('settings.editPrices') }}
           </button>
         </div>
       </div>
     </div>
 
-    <!-- Pricing Modal -->
     <div v-if="showPricingModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div class="bg-white rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto">
+      <div class="bg-white rounded-lg shadow-xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
         <div class="p-6">
           <div class="flex justify-between items-center mb-4">
-            <h3 class="text-lg font-semibold text-gray-800">إعدادات الأسعار لـ {{ currentDuration?.minutes }} دقيقة</h3>
+            <h3 class="text-lg font-semibold text-gray-800">{{ $t('settings.pricingSettingsFor') }} {{ currentDuration?.minutes }} {{ $t('settings.minutes') }}</h3>
             <button @click="closePricingModal" class="text-gray-500 hover:text-gray-700">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -114,20 +110,15 @@
 
           <div class="space-y-4">
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">السعر الأساسي</label>
+              <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('settings.basePrice') }}</label>
               <div class="flex">
                 <input type="number" v-model="currentDuration.basePrice" min="0"
                        class="flex-1 px-3 py-2 border border-gray-300 rounded-l-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                <select v-model="currentDuration.currency"
-                        class="px-3 py-2 border border-l-0 border-gray-300 rounded-r-md bg-gray-50 text-gray-700 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                  <option value="SAR">ريال سعودي</option>
-                  <option value="USD">دولار أمريكي</option>
-                </select>
               </div>
             </div>
-            
+           
             <div>
-              <h5 class="text-sm font-medium text-gray-700 mb-2">أسعار خاصة للدول</h5>
+              <h5 class="text-sm font-medium text-gray-700 mb-2">{{ $t('settings.specialPricesForCountries') }}</h5>
               <div v-for="(price, country) in currentDuration.specialPrices" :key="country" class="flex items-center mb-2">
                 <span class="text-sm text-gray-600 flex-1">{{ getCountryName(country) }}</span>
                 <input type="number" v-model="currentDuration.specialPrices[country]" min="0"
@@ -142,12 +133,12 @@
               <div class="flex mt-2">
                 <select v-model="currentDuration.newCountry"
                         class="flex-1 px-3 py-2 border border-gray-300 rounded-l-md bg-gray-50 text-gray-700 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                  <option value="">اختر دولة</option>
-                  <option v-for="country in countries" :value="country.code">{{ country.name }}</option>
+                  <option value="">{{ $t('settings.selectCountry') }}</option>
+                  <option v-for="country in countries" :key="country.code" :value="country.code">{{ country.name }}</option>
                 </select>
                 <button @click="addSpecialPrice(currentDuration)" 
                         class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-r-md">
-                  إضافة
+                  {{ $t('settings.add') }}
                 </button>
               </div>
             </div>
@@ -155,7 +146,7 @@
             <div class="pt-4 border-t border-gray-200">
               <button @click="savePricing" 
                       class="w-full bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md shadow-sm">
-                حفظ التغييرات
+                {{ $t('settings.saveChanges') }}
               </button>
             </div>
           </div>
@@ -163,64 +154,63 @@
       </div>
     </div>
 
-    <!-- Appointment Modification Settings -->
     <div class="bg-gray-50 p-6 rounded-lg shadow-sm mb-6">
-      <h3 class="text-lg font-semibold mb-4 text-gray-700">إعدادات تعديل المواعيد</h3>
+      <h3 class="text-lg font-semibold mb-4 text-gray-700">{{ $t('settings.appointmentModificationSettings') }}</h3>
       <div class="mb-4">
-        <label class="block text-sm font-medium text-gray-700 mb-2">السماح للعملاء بتغيير مواعيد جلساتهم بعد حجزها؟</label>
+        <label class="block text-sm font-medium text-gray-700 mb-2">{{ $t('settings.allowClientsToReschedule') }}</label>
         <div class="flex space-x-4 rtl:space-x-reverse">
           <label class="inline-flex items-center">
             <input type="radio" v-model="allowReschedule" :value="true" class="form-radio h-4 w-4 text-blue-600">
-            <span class="mr-2 text-gray-700">نعم</span>
+            <span class="mr-2 text-gray-700">{{ $t('settings.yes') }}</span>
           </label>
           <label class="inline-flex items-center">
             <input type="radio" v-model="allowReschedule" :value="false" class="form-radio h-4 w-4 text-blue-600">
-            <span class="mr-2 text-gray-700">لا</span>
+            <span class="mr-2 text-gray-700">{{ $t('settings.no') }}</span>
           </label>
         </div>
       </div>
-      
+     
       <div v-if="allowReschedule" class="bg-white p-4 rounded-lg border border-gray-200 space-y-4">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">يتم تغيير موعد الجلسة مجاناً قبل موعدها بـ</label>
+            <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('settings.freeRescheduleBefore') }}</label>
             <div class="flex">
               <input type="number" v-model="freeReschedule.value" min="0"
                      class="flex-1 px-3 py-2 border border-gray-300 rounded-r-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
               <select v-model="freeReschedule.unit"
                       class="px-3 py-2 border border-l-0 border-gray-300 rounded-l-md bg-gray-50 text-gray-700 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                <option value="hours">ساعة</option>
-                <option value="days">يوم</option>
-                <option value="weeks">أسبوع</option>
+                <option value="hours">{{ $t('settings.hour') }}</option>
+                <option value="days">{{ $t('settings.day') }}</option>
+                <option value="weeks">{{ $t('settings.week') }}</option>
               </select>
             </div>
           </div>
-          
+         
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">بعد ذلك يتم فرض رسوم بقيمة</label>
+            <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('settings.feeAfterThat') }}</label>
             <div class="flex">
               <input type="number" v-model="rescheduleFeePercent" min="0" max="100"
                      class="flex-1 px-3 py-2 border border-gray-300 rounded-r-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
               <span class="flex items-center px-3 bg-gray-100 text-gray-700 border border-l-0 border-gray-300 rounded-l-md">%</span>
             </div>
           </div>
-          
+         
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">لا يمكن تغيير الموعد قبل موعده بـ</label>
+            <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('settings.cannotRescheduleBefore') }}</label>
             <div class="flex">
               <input type="number" v-model="minRescheduleNotice.value" min="0"
                      class="flex-1 px-3 py-2 border border-gray-300 rounded-r-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
               <select v-model="minRescheduleNotice.unit"
                       class="px-3 py-2 border border-l-0 border-gray-300 rounded-l-md bg-gray-50 text-gray-700 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                <option value="hours">ساعة</option>
-                <option value="days">يوم</option>
-                <option value="weeks">أسبوع</option>
+                <option value="hours">{{ $t('settings.hour') }}</option>
+                <option value="days">{{ $t('settings.day') }}</option>
+                <option value="weeks">{{ $t('settings.week') }}</option>
               </select>
             </div>
           </div>
-          
+         
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">عدد مرات التغيير المسموح بها</label>
+            <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('settings.allowedRescheduleAttempts') }}</label>
             <div class="flex">
               <input type="number" v-model="maxRescheduleAttempts" min="1"
                      class="flex-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
@@ -230,29 +220,27 @@
       </div>
     </div>
 
-    <!-- Last Minute Booking Settings -->
     <div class="bg-gray-50 p-6 rounded-lg shadow-sm mb-6">
-      <h3 class="text-lg font-semibold mb-4 text-gray-700">إعدادات الحجز الأخير</h3>
+      <h3 class="text-lg font-semibold mb-4 text-gray-700">{{ $t('settings.lastMinuteBookingSettings') }}</h3>
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">آخر وقت متاح لحجز موعد قبل الجلسة</label>
+        <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('settings.lastTimeForBooking') }}</label>
         <div class="flex">
           <input type="number" v-model="lastMinuteBooking.value" min="0"
                  class="flex-1 px-3 py-2 border border-gray-300 rounded-r-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
           <select v-model="lastMinuteBooking.unit"
                   class="px-3 py-2 border border-l-0 border-gray-300 rounded-l-md bg-gray-50 text-gray-700 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-            <option value="hours">ساعة</option>
-            <option value="days">يوم</option>
+            <option value="hours">{{ $t('settings.hour') }}</option>
+            <option value="days">{{ $t('settings.day') }}</option>
           </select>
         </div>
-        <p class="mt-1 text-xs text-gray-500">(0 تعني أنه لن يتم تفعيل هذا الخيار وسيكون الجلسة متاحة للحجز حتى موعدها)</p>
+        <p class="mt-1 text-xs text-gray-500">{{ $t('settings.lastMinuteBookingHint') }}</p>
       </div>
     </div>
 
-    <!-- Holidays Settings -->
     <div class="bg-gray-50 p-6 rounded-lg shadow-sm mb-6">
-      <h3 class="text-lg font-semibold mb-4 text-gray-700">أيام الإجازات</h3>
+      <h3 class="text-lg font-semibold mb-4 text-gray-700">{{ $t('settings.holidays') }}</h3>
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-2">سيتم إزالة جلساتك من الموقع في هذه الأيام</label>
+        <label class="block text-sm font-medium text-gray-700 mb-2">{{ $t('settings.sessionsRemovedOnHolidays') }}</label>
         <div class="space-y-2 mb-3">
           <div v-for="(holiday, index) in holidays" :key="index" class="flex items-center">
             <input type="date" v-model="holiday.date"
@@ -270,64 +258,62 @@
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
             <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
           </svg>
-          إضافة يوم إجازة
+          {{ $t('settings.addHoliday') }}
         </button>
       </div>
     </div>
 
-    <!-- Booking Window Settings -->
     <div class="bg-gray-50 p-6 rounded-lg shadow-sm mb-6">
-      <h3 class="text-lg font-semibold mb-4 text-gray-700">إعدادات نافذة الحجز</h3>
+      <h3 class="text-lg font-semibold mb-4 text-gray-700">{{ $t('settings.bookingWindowSettings') }}</h3>
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">عدد الأيام التي تظهر في نموذج الحجز</label>
+        <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('settings.daysInBookingForm') }}</label>
         <div class="flex">
           <input type="number" v-model="bookingWindowDays" min="1" max="90"
                  class="flex-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
         </div>
-        <p class="mt-1 text-xs text-gray-500">(أدخل رقم بين 1 و 90)</p>
+        <p class="mt-1 text-xs text-gray-500">{{ $t('settings.bookingWindowHint') }}</p>
       </div>
     </div>
 
-    <!-- Pricing for New vs Existing Clients -->
     <div class="bg-gray-50 p-6 rounded-lg shadow-sm mb-6">
-      <h3 class="text-lg font-semibold mb-4 text-gray-700">إعدادات الأسعار للعملاء الجدد والقدامى</h3>
+      <h3 class="text-lg font-semibold mb-4 text-gray-700">{{ $t('settings.newVsExistingClientPricing') }}</h3>
       <div class="mb-4">
         <label class="inline-flex items-center">
           <input type="checkbox" v-model="enableDifferentPricing" 
                  class="form-checkbox h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
-          <span class="mr-2 text-gray-700">تفعيل نظام تسعير مختلف للعملاء الجدد</span>
+          <span class="mr-2 text-gray-700">{{ $t('settings.enableDifferentPricing') }}</span>
         </label>
       </div>
-      
+     
       <div v-if="enableDifferentPricing" class="bg-white p-4 rounded-lg border border-gray-200">
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">المدة بين الحجزين لتطبيق السعر القديم</label>
+          <label class="block text-sm font-medium text-gray-700 mb-1">{{ $t('settings.gracePeriodForOldPrice') }}</label>
           <div class="flex">
             <input type="number" v-model="pricingGracePeriod.value" min="0"
                    class="flex-1 px-3 py-2 border border-gray-300 rounded-r-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
             <select v-model="pricingGracePeriod.unit"
                     class="px-3 py-2 border border-l-0 border-gray-300 rounded-l-md bg-gray-50 text-gray-700 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-              <option value="days">يوم</option>
-              <option value="weeks">أسبوع</option>
-              <option value="months">شهر</option>
+              <option value="days">{{ $t('settings.day') }}</option>
+              <option value="weeks">{{ $t('settings.week') }}</option>
+              <option value="months">{{ $t('settings.month') }}</option>
             </select>
           </div>
-          <p class="mt-1 text-xs text-gray-500">(المدة بين تاريخي الدفع أو المدة بين موعدي الجلستين الفعلي)</p>
+          <p class="mt-1 text-xs text-gray-500">{{ $t('settings.gracePeriodHint') }}</p>
         </div>
       </div>
     </div>
 
-    <!-- Save Button -->
     <div class="mt-8">
       <button @click="saveSettings" 
               class="w-full md:w-auto bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-md shadow-sm font-medium">
-        حفظ الإعدادات
+        {{ $t('settings.saveSettings') }}
       </button>
     </div>
   </div>
 </template>
 
 <script>
+const toast = useToast()
 export default {
   name: 'Settings',
   data() {
@@ -381,14 +367,14 @@ export default {
     }
   },
   computed: {
-    showOnlineSettings() {
-      return this.bookingType === 'online_only' || this.bookingType === 'both';
+    showOfflineSettings() {
+      return this.bookingType === 'clinic_only' || this.bookingType === 'both';
     }
   },
   methods: {
     getCountryName(code) {
       const country = this.countries.find(c => c.code === code);
-      return country ? country.name : code;
+      return country ? this.$t(`countries.${country.code}`) : code;
     },
     addNewClinic() {
       this.onlineClinics.push({
@@ -402,12 +388,12 @@ export default {
     },
     addSpecialPrice(duration) {
       if (duration.newCountry && !duration.specialPrices[duration.newCountry]) {
-        this.$set(duration.specialPrices, duration.newCountry, 0);
-        duration.newCountry = '';
+        duration.specialPrices[duration.newCountry] = 0; // Directly assign for Vue 3 reactivity
+        duration.newCountry = ''; // Clear the selection after adding
       }
     },
     removeSpecialPrice(duration, country) {
-      this.$delete(duration.specialPrices, country);
+      delete duration.specialPrices[country]; // Use native JavaScript delete for Vue 3 reactivity
     },
     addHoliday() {
       this.holidays.push({ date: '' });
@@ -436,12 +422,13 @@ export default {
           pricingGracePeriod: this.pricingGracePeriod
         }
       });
-      
-      // Show success message
-      this.$toast.success('تم حفظ الإعدادات بنجاح', {
+      toast.add({
+        title: 'Success',
+        description: this.$t('settings.settingsSavedSuccessfully'),
         position: 'top-left',
-        duration: 3000
-      });
+        duration: 3000,
+        color: 'green' // optional (green, red, blue, etc.)
+      })
     },
     openPricingModal(duration) {
       this.currentDuration = JSON.parse(JSON.stringify(duration));
